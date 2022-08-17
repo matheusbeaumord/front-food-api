@@ -26,56 +26,25 @@ function App() {
   };
 
   const handleSubmit = async (event) => {
-    //Prevent page reload
     event.preventDefault();
     const userName = event.target.username.value;
-    console.log(
-      '🚀 ~ file: App.js ~ line 31 ~ handleSubmit ~ userName',
-      userName
-    );
     const password = event.target.password.value;
-    console.log(
-      '🚀 ~ file: App.js ~ line 33 ~ handleSubmit ~ password',
-      password
-    );
 
     try {
-      const loginRequest = await axios.post(
-        FoodServices._withBaseUrl('seguranca/login'),
-        {
-          body: {
-            login: userName,
-            senha: password,
-          },
-        }
-      );
-      console.log(loginRequest);
+      await axios.post(FoodServices._withBaseUrl('seguranca/login'), {
+        login: userName,
+        senha: password,
+      });
+      setIsSubmitted(true);
     } catch (error) {
-      console.log('🚀 ~ file: App.js ~ line 37 ~ handleSubmit ~ error', error);
+      setErrorMessages({ name: 'error', message: errors });
     }
-
-    // // Find user login info
-    // const userData = database.find((user) => user.username === uname.value);
-
-    // // Compare user info
-    // if (userData) {
-    //   if (userData.password !== pass.value) {
-    //     // Invalid password
-    //     setErrorMessages({ name: 'pass', message: errors.pass });
-    //   } else {
-    //     setIsSubmitted(true);
-    //   }
-    // } else {
-    //   // Username not found
-    //   setErrorMessages({ name: 'uname', message: errors.uname });
-    // }
   };
 
   // Generate JSX code for error message
-  const renderErrorMessage = (name) =>
-    name === errorMessages.name && (
-      <div className='error'>{errorMessages.message}</div>
-    );
+  const renderErrorMessage = () => (
+    <div className='error'>Invalid username / password</div>
+  );
 
   // JSX code for login form
   const renderForm = (
@@ -84,12 +53,12 @@ function App() {
         <div className='input-container'>
           <label>Username </label>
           <input type='text' name='uname' id='username' required />
-          {renderErrorMessage('uname')}
+          {renderErrorMessage()}
         </div>
         <div className='input-container'>
           <label>Password </label>
           <input type='password' name='pass' id='password' required />
-          {renderErrorMessage('pass')}
+          {renderErrorMessage()}
         </div>
         <div className='button-container'>
           <input type='submit' />
