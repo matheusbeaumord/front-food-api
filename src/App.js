@@ -37,7 +37,7 @@ function App() {
       });
       setIsSubmitted(true);
     } catch (error) {
-      setErrorMessages({ name: 'error', message: errors.pass });
+      setErrorMessages({ name: 'error', message: errors });
     }
   };
 
